@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+// Function to calculate the GCD of two numbers using Euclidean algorithm
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+int main() {
+    int n;
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    printf("Enter the elements of the array: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // If there are less than two elements, it's not possible to find a sum of two distinct elements
+    if (n < 2) {
+        printf("Array must contain at least two distinct elements.\n");
+        return 0;
+    }
+
+    // Sorting the array in descending order to easily find the two largest distinct numbers
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (arr[i] < arr[j]) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+
+    // Find the two largest distinct integers
+    int max1 = arr[0];
+    int max2 = -1;
+    
+    for (int i = 1; i < n; i++) {
+        if (arr[i] != max1) {
+            max2 = arr[i];
+            break;
+        }
+    }
+
+    if (max2 == -1) {
+        printf("There must be at least two distinct integers in the array.\n");
+        return 0;
+    }
+
+    // Calculate the sum of the two largest distinct integers
+    int maxSum = max1 + max2;
+
+    // Find the second-largest element
+    int secondLargest = max2;
+
+    // Calculate the GCD of the maximum sum with the second-largest element
+    int result = gcd(maxSum, secondLargest);
+
+    // Output the result
+    printf("Maximum sum of two distinct integers: %d\n", maxSum);
+    printf("GCD of the sum with the second-largest integer: %d\n", result);
+
+    return 0;
+}
